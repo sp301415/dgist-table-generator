@@ -9,13 +9,11 @@ class Course:
         rdr = csv.reader(f)
         self.code = code
         self.time = {}
-        self.credit = 0
         self.title = ""
         self.class_num = []
         for line in rdr:
             if line[3] == self.code:
                 self.title = line[5]
-                self.credit = line[13]
                 self.time[int(line[4])] = {i[0]: [float(j.replace(":", ".")) for j in i[1:12].split("-")] \
                                            for i in line[16].split(", ")}
                 self.class_num.append(int(line[4]))
