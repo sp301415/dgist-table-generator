@@ -31,8 +31,10 @@ class Table:
     def check_overlap(time1, time2):
         for day in "월화수목금":
             try:
-                if ((time1[day][1] < time2[day][0])
-                        or (time1[day][0] < time2[day][1])):
+                # sort time1 and time2
+                if time1[day][1] > time2[day][1]:
+                    time1, time2 = time2, time1
+                if time1[day][1] > time2[day][0]:
                     return True
             except KeyError:
                 continue
@@ -40,8 +42,9 @@ class Table:
 
     @staticmethod
     def merge_by_day(courses):
+        # merge time data by day
         # used for final generate_tables
-        # looks like: {course object: {day: time}}, ...}
+        # result looks like: {day: [{course: time}, ...], ...}
 
         table_day = defaultdict(list)
 
@@ -49,31 +52,36 @@ class Table:
             for day, hour in time.items():
                 table_day[day].append({course: hour})
 
-        #"-".join(str(i) + "0" for i in hour).replace(".", ":")
         return dict(table_day)
 
     def check_courses(self, dict_course):
+        # choose any two courses and check whether it overlaps or not
         for i in combinations(dict_course.values(), 2):
             if self.check_overlap(*i):
                 return False
         return True
 
     def generate_tables(self):
-        possible_tables_num = list(product(*[i.class_num for i in self.courses]))
+        # Generate all possible permutations of class number...
+        possible_tables_num = list(product(*[course.class_num for course in self.courses]))
+        # ...and use it to construct all possible time tables.
+        # TODO: somehow include class number information here, or at least simplify the algorithm.
         possible_tables = [{self.courses[j]: self.courses[j].time[k] for j, k in enumerate(i)}
                            for i in possible_tables_num]
 
-        tables = [self.merge_by_day(i) for i in possible_tables if self.check_courses(i)]
+        tables = [self.merge_by_day(t) for t in possible_tables if self.check_courses(t)]
 
         string = ""
-        for p, table in enumerate(tables):
-            string += f"Table {p+1}\n"
+        for num, table in enumerate(tables):
+            string += f"Table {num+1}\n"
             for day in "월화수목금":
                 try:
                     string += f"{day}: "
+                    # Since data structure is very complicated, this ugly code happens!
+                    # TODO: simply data structure.
                     table[day].sort(key=lambda x: list(x.values())[0][0])
-                    for i in table[day]:
-                        for course, time in i.items():
+                    for data in table[day]:
+                        for course, time in data.items():
                             string += f"{course.title}: {'-'.join(str(i) + '0' for i in time).replace('.', ':')} "
                     string += "\n"
                 except KeyError:
