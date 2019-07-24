@@ -11,12 +11,14 @@ class Course:
         self.time = {}
         self.title = ""
         self.class_num = []
+        self.credit = 0
         for line in rdr:
             if line[3] == self.code:
                 self.title = line[5]
-                self.time[int(line[4])] = {i[0]: [float(j.replace(":", ".")) for j in i[1:12].split("-")] \
+                self.time[int(line[4])] = {i[0]: [float(j.replace(":", ".")) for j in i[1:12].split("-")]
                                            for i in line[16].split(", ")}
                 self.class_num.append(int(line[4]))
+                self.credit = float(line[13])
         f.close()
 
     def get_info(self):
@@ -26,6 +28,9 @@ class Course:
 class Table:
     def __init__(self, *courses):
         self.courses = courses
+
+    def get_credits(self):
+        return sum(course.credit for course in self.courses)
 
     @staticmethod
     def check_overlap(time1, time2):
@@ -86,7 +91,7 @@ class Table:
                     string += "\n"
                 except KeyError:
                     string += "None\n"
-            string += "\n"
+            string += f"학점: {self.get_credits()} \n\n"
 
         return string
 
