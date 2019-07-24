@@ -1,4 +1,4 @@
-# Time Table Generator for DGISt
+# Time Table Generator for DGIST
 
 ## Usage
 1. Write course code in `courses.txt`, seperated by new line.
