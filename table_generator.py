@@ -78,7 +78,7 @@ class Table:
 
         string = ""
         for num, table in enumerate(tables):
-            string += f"Table {num+1}\n"
+            string += f"Table {num + 1}\n"
             for day in "월화수목금":
                 try:
                     string += f"{day}: "
