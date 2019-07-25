@@ -2,19 +2,6 @@ from itertools import product, combinations
 from collections import defaultdict
 
 
-def sort_by_day(day):
-    if day == "월":
-        return 0
-    elif day == "화":
-        return 1
-    elif day == "수":
-        return 2
-    elif day == "목":
-        return 3
-    elif day == "금":
-        return 4
-
-
 class Table:
     def __init__(self, *courses):
         self.courses = []
@@ -78,4 +65,3 @@ class Table:
                     string += "None\n"
             string += "\n"
         return string
-

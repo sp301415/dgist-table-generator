@@ -21,6 +21,3 @@ with open("data/2019-2-course.csv", "r", encoding="UTF-8") as f:
 
 with open("data/tables.txt", "w",encoding="UTF-8") as f:
     f.write(table.generate_tables())
-
-
-
