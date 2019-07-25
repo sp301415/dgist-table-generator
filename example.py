@@ -19,5 +19,10 @@ with open("data/courses.txt", "r", encoding="UTF-8") as f:
 with open("data/2019-2-course.csv", "r", encoding="UTF-8") as f:
     table = Table(*parse_course(codes, f))
 
-with open("data/tables.txt", "w",encoding="UTF-8") as f:
-    f.write(table.generate_tables())
+with open("data/tables.txt", "w", encoding="UTF-8") as f:
+    try:
+        f.write(table.generate_tables())
+    except ValueError:
+        f.write("No Tables Available. Please Try Again.")
+    finally:
+        print("Tables Generated.")

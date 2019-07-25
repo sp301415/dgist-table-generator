@@ -34,16 +34,17 @@ class Table:
 
         for day in "월화수목금":
             try:
-                table_day[day].sort(key=lambda x: int(x.time[day][:2])) # sort by hour
+                table_day[day].sort(key=lambda x: int(x.time[day][:2]))  # sort by hour
             except KeyError:
                 continue
 
         return dict(table_day)
 
-    def check_courses(self, courses):
+    @classmethod
+    def check_courses(cls, courses):
         # choose any two courses and check whether it overlaps or not
         for i in combinations([c.time for c in courses], 2):
-            if self.check_overlap(*i):
+            if cls.check_overlap(*i):
                 return False
         return True
 
@@ -51,6 +52,9 @@ class Table:
         # Generate all possible permutations of class number...
         possible_tables = list(product(*self.courses))
         tables = [self.format_table(table) for table in possible_tables if self.check_courses(table)]
+
+        if len(tables) == 0:
+            raise ValueError
 
         string = ""
         for num, table in enumerate(tables):
