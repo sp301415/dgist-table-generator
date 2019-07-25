@@ -5,7 +5,7 @@ from collections import defaultdict
 
 class Course:
     def __init__(self, code):
-        f = open("2019-2-course.csv", "r", encoding = "UTF-8")
+        f = open("2019-2-course.csv", "r", encoding="UTF-8")
         rdr = csv.reader(f)
         self.code = code
         self.time = {}
@@ -87,7 +87,7 @@ class Table:
                     table[day].sort(key=lambda x: list(x.values())[0][0])
                     for data in table[day]:
                         for course, time in data.items():
-                            string += f"{course.title}: {'-'.join(str(i) + '0' for i in time).replace('.', ':')} "
+                            string += f"\n{'-'.join(str(i) + '0' for i in time).replace('.', ':')} - {course.title}"
                     string += "\n"
                 except KeyError:
                     string += "None\n"
