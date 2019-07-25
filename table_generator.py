@@ -5,7 +5,7 @@ from collections import defaultdict
 
 class Course:
     def __init__(self, code):
-        f = open("2019-2-course.csv", "r")
+        f = open("2019-2-course.csv", "r", encoding = "UTF-8")
         rdr = csv.reader(f)
         self.code = code
         self.time = {}
