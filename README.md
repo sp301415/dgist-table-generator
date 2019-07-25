@@ -1,12 +1,12 @@
 # Time Table Generator for DGIST
 
-## Usage
-1. Write course code in `courses.txt`, seperated by new line.
-2. Execute `table_generator.py`
-3. Enjoy! results will be saved in `tables.txt`
+## Running the code
+1. Write your desired course numbers on `data/courses.txt`
+2. Run `example.py`
+3. Results are stored in `tables.txt`
 
 ## TODO
-- [ ] make code cleaner
-- [ ] improve readability of generated tables
+- [x] make code cleaner
+- [x] improve readability of generated tables
 - [ ] add search by course name
-- [ ] add course num information
+- [x] add course num information
