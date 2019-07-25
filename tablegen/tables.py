@@ -2,11 +2,15 @@ from itertools import product, combinations
 from collections import defaultdict
 
 
-class Table:
+class Tables:
     def __init__(self, *courses):
         self.courses = []
         for t in {c.title for c in courses}:
             self.courses.append([course for course in courses if course.title == t])
+
+        all_tables = product(*self.courses)
+        self.possible_tables = [self.arrange_table_by_day(table) for table in all_tables if self.check_courses(table)]
+
 
     @staticmethod
     def check_overlap(c_time1, c_time2):
@@ -24,8 +28,8 @@ class Table:
         return False
 
     @staticmethod
-    def format_table(table):
-        # reformat tables by day
+    def arrange_table_by_day(table):
+        # rearrange tables by day
         table_day = defaultdict(list)
 
         for course in table:
@@ -49,23 +53,20 @@ class Table:
         return True
 
     def generate_tables(self):
-        # Generate all possible permutations of class number...
-        possible_tables = list(product(*self.courses))
-        tables = [self.format_table(table) for table in possible_tables if self.check_courses(table)]
-
-        if len(tables) == 0:
+        if len(self.possible_tables) == 0:
             raise ValueError
 
-        string = ""
-        for num, table in enumerate(tables):
-            string += f"Table {num + 1}\n"
+        # format table to string
+        formatted_tables = ""
+        for num, table in enumerate(self.possible_tables):
+            formatted_tables += f"Table {num + 1}\n"
             for day in "월화수목금":
                 try:
-                    string += f"{day}: "
+                    formatted_tables += f"{day}: "
                     for course in table[day]:
-                        string += f"\n{course.time[day]} - {course.title} ({course.num})"
-                    string += "\n"
+                        formatted_tables += f"\n{course.time[day]} - {course.title} ({course.num})"
+                    formatted_tables += "\n"
                 except KeyError:
-                    string += "None\n"
-            string += "\n"
-        return string
+                    formatted_tables += "None\n"
+            formatted_tables += "\n"
+        return formatted_tables
