@@ -6,11 +6,15 @@ class Tables:
     def __init__(self, *courses):
         self.courses = []
         for t in {c.title for c in courses}:
-            self.courses.append([course for course in courses if course.title == t])
+            self.courses.append([c for c in courses if c.title == t])
 
         all_tables = product(*self.courses)
-        self.possible_tables = [self.arrange_table_by_day(table) for table in all_tables if self.check_courses(table)]
+        self.possible_tables = [self.arrange_table_by_day(t) for t in all_tables if self.check_courses(t)]
+        if len(self.possible_tables) == 0:
+            raise ValueError
 
+        self.courses_merged = [c[0] for c in self.courses]
+        self.credits = sum(c.credit for c in self.courses_merged)
 
     @staticmethod
     def check_overlap(c_time1, c_time2):
@@ -53,20 +57,22 @@ class Tables:
         return True
 
     def generate_tables(self):
-        if len(self.possible_tables) == 0:
-            raise ValueError
-
         # format table to string
-        formatted_tables = ""
+        formatted_tables = f"""
+신청한 과목: {", ".join(c.title for c in self.courses_merged)}
+총 학점 수: {self.credits}
+-----------------------
+
+"""
         for num, table in enumerate(self.possible_tables):
-            formatted_tables += f"Table {num + 1}\n"
+            formatted_tables += f"Table {num + 1} (총 학점: {self.credits})\n"
             for day in "월화수목금":
                 try:
                     formatted_tables += f"{day}: "
                     for course in table[day]:
-                        formatted_tables += f"\n{course.time[day]} - {course.title} ({course.num})"
+                        formatted_tables += f"\n{course.time[day]} - {course.title} ({course.num}분반)"
                     formatted_tables += "\n"
                 except KeyError:
                     formatted_tables += "None\n"
-            formatted_tables += "\n"
+            formatted_tables += f"\n\n"
         return formatted_tables

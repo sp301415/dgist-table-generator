@@ -8,7 +8,7 @@ def parse_course(course_code, f):
 
     for line in rdr:
         if line[3] in course_code:
-            courses.append(Course(line[3], line[4], line[5], line[16]))
+            courses.append(Course(line[3], line[4], line[5], line[16], line[13]))
 
     return courses
 
