@@ -10,7 +10,7 @@ class Tables:
 
         all_tables = product(*self.courses)
         self.possible_tables = [self.arrange_table_by_day(t) for t in all_tables if self.check_courses(t)]
-        assert len(self.possible_tables) > 1
+        assert len(self.possible_tables) >= 1
 
         self.courses_merged = [c[0] for c in self.courses]
         self.credits = sum(c.credit for c in self.courses_merged)
