@@ -6,6 +6,5 @@ class Course:
         self.time = {i[0]: i[1:12] for i in time.split(", ")}
         self.credit = float(credit)
 
-
     def get_info(self):
         return self.code, self.num, self.title, self.time, self.credit

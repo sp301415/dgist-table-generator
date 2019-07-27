@@ -22,7 +22,7 @@ with open("./data/2019-2-course.csv", "r", encoding="UTF-8") as f:
 with open("./data/tables.txt", "w", encoding="UTF-8") as f:
     try:
         f.write(tables.generate_tables())
-    except ValueError:
+    except AssertionError:
         f.write("No Tables Available. Please Try Again.")
     finally:
         print("Tables Generated.")
