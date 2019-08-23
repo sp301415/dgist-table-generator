@@ -237,4 +237,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+/data/tables.txt
+
 # End of https://www.gitignore.io/api/macos,python,pycharm
